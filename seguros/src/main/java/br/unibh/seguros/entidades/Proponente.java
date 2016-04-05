@@ -11,12 +11,19 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity @PrimaryKeyJoinColumn
 @Table(name = "tb_proponente")
 public class Proponente extends PessoaFisica{
 	
 	@Column(name="matricula",columnDefinition="char(8)", nullable=false, unique=true)
+	@NotNull
+	@Size(min = 5, max = 8)
+	@Pattern(regexp = "[0-9]*", message = "O campo aceita somente números")
 	private String matricula;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -24,9 +31,14 @@ public class Proponente extends PessoaFisica{
 	private Date data_cadastro;
 	
 	@Column(name="situacao_cadastro",columnDefinition="varchar(30)", nullable=false, unique=true)
+	@NotNull
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String situacaoCadastro;
 	
 	@Column(name="status",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String status;
 	
 	@OneToMany(mappedBy="proponente", fetch=FetchType.LAZY)

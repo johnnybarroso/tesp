@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 @Entity
@@ -19,24 +22,46 @@ public class Endereco {
 	private Long id;
 	
 	@Column(name="tipo",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String tipo;
 	
 	@Column(name="cep",columnDefinition="char(8)", nullable=false)
+	@NotNull
+	@Pattern(regexp="\\d{8}", message = "O cep deve ter 8 numeros")
 	private String cep;
 	
 	@Column(name="tipo_logradouro",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String tipoLogradouro;
 	
+	@Column(name="logradouro",columnDefinition="varchar(150)", nullable=false)
+	@NotNull
+	@Max(150)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	private String logradouro;
+	
 	@Column(name="numero",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
 	private String numero;
 	
 	@Column(name="complemento",columnDefinition="varchar(100)", nullable=true)
+	@Max(100)
 	private String complemento;
 	
 	@Column(name="cidade",columnDefinition="varchar(100)", nullable=true)
+	@NotNull
+	@Max(100)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String cidade;
 	
 	@Column(name="estado",columnDefinition="char(2)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-Z]{2}", message = "Somente letras maisculas")
 	private String estado;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -112,6 +137,14 @@ public class Endereco {
 
 	public void setPreponente(Proponente preponente) {
 		this.proponente = preponente;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
 }

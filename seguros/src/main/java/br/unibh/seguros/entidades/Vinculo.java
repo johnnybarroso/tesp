@@ -11,6 +11,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "tb_vinculo")
@@ -21,32 +29,53 @@ public class Vinculo {
 	private Long id;
 	
 	@Column(name="tipo_vinculo",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
+	@Pattern(regexp = "[A-zA-ú ]", message = "Somente letras e espaços")
 	private String tipoVinculo;
 	
 	@Column(name="empresa",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(120)
+	@Pattern(regexp = "[A-zA-ú ]", message = "Somente letras e espaços")
 	private String empresa;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_desde", nullable=false)
+	@NotNull
+	@Past
 	private Date dataDesde;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ate", nullable=true)
+	@Past
 	private Date dataAte;
 	
 	@Column(name="cargo",columnDefinition="varchar(100)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-zA-ú ]", message = "Somente letras e espaços")
+	@Max(100)
 	private String cargo;
 	
 	@Column(name="salario",columnDefinition="decimal(14,2)", nullable=false)
+	@NotNull
+	@DecimalMin("500.0")
+	@DecimalMax("100000.00")
 	private String salario;
 	
 	@Column(name="pessoa_referencia",columnDefinition="varchar(100)", nullable=false)
+	@Max(100)
+	@Pattern(regexp = "[A-zA-ú ]", message = "Somente letras e espaços")
 	private String pessoaReferencia;
 	
 	@Column(name="telefone_referencia",columnDefinition="char(14)", nullable=false)
+	@NotNull
+	@Pattern(regexp="\\(\\d{2}\\)\\d{4}-\\d{4}")
 	private String telefoneReferencia;
 	
 	@Column(name="email_referencia",columnDefinition="varchar(100)", nullable=true)
+	@Email
+	@Max(100)
 	private String emailReferencia;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

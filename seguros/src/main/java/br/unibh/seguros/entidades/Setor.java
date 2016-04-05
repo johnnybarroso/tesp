@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -23,6 +26,9 @@ public class Setor{
 	private Long id;
 	
 	@Column(name="nome",columnDefinition="varchar(150)", nullable=false, unique=true)
+	@NotNull
+	@Size(min = 3, max = 150)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Deve conter apenas letras e espaços")
 	private String nome;
 	
 	@OneToOne(optional=true)

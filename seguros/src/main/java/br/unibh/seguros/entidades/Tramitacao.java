@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "tb_tramitacao")
@@ -22,6 +25,9 @@ public class Tramitacao {
 	private Long id;
 	
 	@Column(name="etapa_processo",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Max(30)
 	private String etapaProcesso;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -29,15 +35,26 @@ public class Tramitacao {
 	private Date dataHora;
 	
 	@Column(name="situacao_inicial",columnDefinition="varchar(50)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Max(50)
 	private String situacaoInicial;
 	
 	@Column(name="situacao_final",columnDefinition="varchar(50)", nullable=false)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@NotNull
+	@Max(50)
 	private String situacaoFinal;
 	
 	@Column(name="tipo_decisao",columnDefinition="varchar(100)", nullable=false)
+	@NotNull
+	@Max(100)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String tipoDecisao;
 	
 	@Column(name="comentario",columnDefinition="varchar(4000)", nullable=true)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Max(4000)
 	private String comentario;
 	
 	@Column(name="documento",columnDefinition="blob", nullable=true)

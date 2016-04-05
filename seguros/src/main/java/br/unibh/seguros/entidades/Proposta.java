@@ -15,6 +15,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "tb_proposta")
@@ -29,41 +36,66 @@ public class Proposta {
 	private Date data;
 	
 	@Column(name="tipo_segurado",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Deve conter apenas letras e espaços")
+	@Max(30)
 	private String tipoSegurado;
 	
 	@Column(name="valor_segurado",columnDefinition="decimal(14,2)", nullable=false)
+	@NotNull
+	@DecimalMin("1000.0")
+	@DecimalMax("10000000.00")
 	private String valorSegurado;
 	
 	@Column(name="classe",columnDefinition="char(1)", nullable=false)
+	@NotNull
+	@Pattern(regexp = "[A-Z]{1}", message = "Deve conter apenas letras maisculas")
 	private String classe;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_inicio_vigencia", nullable=false)
+	@NotNull
 	private Date dataInicioVigencia;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_termino_vigencia", nullable=false)
+	@NotNull
 	private Date dataTerminoVigencia;
 	
 	@Column(name="carencia_em_meses", columnDefinition="integer", nullable=false)
+	@NotNull
+	@Range(min = 0, max = 24)
 	private String carenciaEmMeses;
 	
 	@Column(name="situacao_atual", columnDefinition="varchar(30)", nullable=false)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Max(30)
 	private String situacaoAtual;
 	
 	@Column(name="valor_premio", columnDefinition="decimal(14,2)", nullable=false)
+	@NotNull
+	@DecimalMin("100.0")
+	@DecimalMax("100000.00")
 	private String valorPremio;
 	
 	@Column(name="dia_pagamento", columnDefinition="integer", nullable=false)
+	@NotNull
+	@Range(min = 1, max = 31)
 	private String diaPagamento;
 	
 	@Column(name="banco_pagamento", columnDefinition="varchar(50)", nullable=false)
+	@NotNull
+	@Max(50)
 	private String bancoPagamento;
 	
 	@Column(name="agencia", columnDefinition="varchar(15)", nullable=false)
+	@NotNull
+	@Max(15)
 	private String agencia;
 	
 	@Column(name="conta", columnDefinition="varchar(15)", nullable=false)
+	@NotNull
+	@Max(50)
 	private String conta;
 	
 	@OneToOne(optional=false)

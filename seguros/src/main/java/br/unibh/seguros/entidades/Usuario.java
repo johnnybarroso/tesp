@@ -13,6 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -23,21 +30,37 @@ public class Usuario {
 	private Long id;
 	
 	@Column(name="nome",columnDefinition="varchar(100)", nullable=false)
+	@NotNull
+	@Size(min = 5, max = 100)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Deve conter apenas letras e espaços")
 	private String nome;
 	
 	@Column(name="login",columnDefinition="char(11)", nullable=false, unique=true)
+	@Size(min = 8, max = 15)
+	@NotNull
+	@Pattern(regexp = "[A-z0-9]", message = "Deve conter apenas letras e não é permitido caracteres especiais")
 	private String login;
 	
 	@Column(name="senha",columnDefinition="char(14)", nullable=true)
+	@Size(min = 8, max = 15)
+	@NotBlank
 	private String senha;
 	
 	@Column(name="perfil",columnDefinition="char(14)", nullable=false)
+	@NotNull
+	@Size(min = 5, max = 100)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Deve conter apenas letras e espaços")
 	private String perfil;
 	
 	@Column(name="cargo",columnDefinition="char(14)", nullable=true)
+	@NotNull
+	@Size(min = 5, max = 100)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Deve conter apenas letras e espaços")
 	private String cargo;
 	
 	@Column(name="email",columnDefinition="varchar(100)", nullable=true)
+	@Email
+	@Max(100)
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)

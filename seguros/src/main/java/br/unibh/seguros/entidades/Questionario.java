@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "tb_questionario")
@@ -26,10 +27,12 @@ public class Questionario {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_internacao", nullable=true)
+	@Past
 	private Date dataUltimaInternacao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_ultima_consulta_medica", nullable=true)
+	@Past
 	private Date dataUltimaConsultaMedica;
 	
 	@Column(name="possui_plano_saude_particular", columnDefinition="char(1)", nullable=false)

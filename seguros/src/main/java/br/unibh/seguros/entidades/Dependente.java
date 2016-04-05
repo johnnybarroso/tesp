@@ -6,6 +6,11 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 @Entity @PrimaryKeyJoinColumn
@@ -13,9 +18,15 @@ import javax.persistence.Table;
 public class Dependente extends PessoaFisica{
 	
 	@Column(name="grau_parentesco",columnDefinition="varchar(30)", nullable=false)
+	@NotNull
+	@Max(30)
+	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
 	private String nome;
 	
 	@Column(name="percentual_beneficio",columnDefinition="decimal(30)", nullable=false)
+	@NotNull
+	@DecimalMin("0.0")
+	@DecimalMax("100.0")
 	private String percentualBeneficio;
 	
 	@Column(name="dependente_ir", columnDefinition="char(1)", nullable=false)
