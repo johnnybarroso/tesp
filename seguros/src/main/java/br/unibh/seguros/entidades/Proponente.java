@@ -1,5 +1,6 @@
 package br.unibh.seguros.entidades;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,8 +19,10 @@ import javax.validation.constraints.Size;
 
 @Entity @PrimaryKeyJoinColumn
 @Table(name = "tb_proponente")
-public class Proponente extends PessoaFisica{
+public class Proponente extends PessoaFisica implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Column(name="matricula",columnDefinition="char(8)", nullable=false, unique=true)
 	@NotNull
 	@Size(min = 5, max = 8)
@@ -32,13 +35,13 @@ public class Proponente extends PessoaFisica{
 	
 	@Column(name="situacao_cadastro",columnDefinition="varchar(30)", nullable=false, unique=true)
 	@NotNull
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String situacaoCadastro;
 	
 	@Column(name="status",columnDefinition="varchar(30)", nullable=false)
 	@NotNull
-	@Max(30)
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Size(max = 30)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String status;
 	
 	@OneToMany(mappedBy="proponente", fetch=FetchType.LAZY)
@@ -111,4 +114,40 @@ public class Proponente extends PessoaFisica{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Proponente() {
+		super();
+	}
+	
+	
+	
+	public Proponente(String nome, String cpf, String telefoneComercial, String telefoneResidencial,
+			String telefoneCelular, String email, String idade, Date data_nascimento, String matricula,
+			Date data_cadastro, String situacaoCadastro, String status) {
+		super(nome, cpf, telefoneComercial, telefoneResidencial, telefoneCelular, email, idade, data_nascimento);
+		this.matricula = matricula;
+		this.data_cadastro = data_cadastro;
+		this.situacaoCadastro = situacaoCadastro;
+		this.status = status;
+	}
+	
+	public Proponente(String nome, String cpf, String telefoneComercial, String telefoneResidencial,
+			String telefoneCelular, String email, String idade, Date data_nascimento, String matricula,
+			Date data_cadastro, String situacaoCadastro, String status, Collection<Endereco> enderecos,
+			Collection<Dependente> dependente, Collection<Vinculo> vinculos, Collection<Seguro> seguros,
+			Collection<Proposta> propostas) {
+		super(nome, cpf, telefoneComercial, telefoneResidencial, telefoneCelular, email, idade, data_nascimento);
+		this.matricula = matricula;
+		this.data_cadastro = data_cadastro;
+		this.situacaoCadastro = situacaoCadastro;
+		this.status = status;
+		this.enderecos = enderecos;
+		this.dependente = dependente;
+		this.vinculos = vinculos;
+		this.seguros = seguros;
+		this.propostas = propostas;
+	}
+	
+	
+
 }

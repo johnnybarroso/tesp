@@ -1,5 +1,7 @@
 package br.unibh.seguros.entidades;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,8 +17,10 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "tb_endereco")
-public class Endereco {
+public class Endereco implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -147,4 +151,21 @@ public class Endereco {
 		this.logradouro = logradouro;
 	}
 
+	public Endereco(){
+		
+	}
+	
+	public Endereco(String tipo, String cep, String tipoLogradouro, String logradouro, String numero,
+			String complemento, String cidade, String estado, Proponente proponente) {
+		super();
+		this.tipo = tipo;
+		this.cep = cep;
+		this.tipoLogradouro = tipoLogradouro;
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.complemento = complemento;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.proponente = proponente;
+	}
 }

@@ -1,4 +1,5 @@
 package br.unibh.seguros.entidades;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
@@ -23,8 +24,26 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario {
+public class Usuario implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
+	
+	public Usuario(){}
+	
+	public Usuario(String nome, String login, String senha, String perfil, String cargo, String email,
+			Date dataCadastro, Setor setor) {
+		super();
+		this.nome = nome;
+		this.login = login;
+		this.senha = senha;
+		this.perfil = perfil;
+		this.cargo = cargo;
+		this.email = email;
+		this.dataCadastro = dataCadastro;
+		this.setor = setor;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -38,7 +57,7 @@ public class Usuario {
 	@Column(name="login",columnDefinition="char(11)", nullable=false, unique=true)
 	@Size(min = 8, max = 15)
 	@NotNull
-	@Pattern(regexp = "[A-z0-9]", message = "Deve conter apenas letras e não é permitido caracteres especiais")
+	@Pattern(regexp = "[A-z0-9]*", message = "Deve conter apenas letras e não é permitido caracteres especiais")
 	private String login;
 	
 	@Column(name="senha",columnDefinition="char(14)", nullable=true)
@@ -60,7 +79,7 @@ public class Usuario {
 	
 	@Column(name="email",columnDefinition="varchar(100)", nullable=true)
 	@Email
-	@Max(100)
+	@Size(max = 100)
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,7 +92,10 @@ public class Usuario {
 	@OneToMany(mappedBy="usuarioDecisao", fetch=FetchType.LAZY)
 	private Collection<Tramitacao> tramitacoes;
 	
-
+	
+	
+	
+	
 	public Collection<Tramitacao> getTramitacoes() {
 		return tramitacoes;
 	}

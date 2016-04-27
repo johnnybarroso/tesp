@@ -1,4 +1,5 @@
 package br.unibh.seguros.entidades;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,8 +24,29 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity @Inheritance(strategy=InheritanceType.JOINED)
 @Table(name = "tb_pessoa_fisica", uniqueConstraints = @UniqueConstraint(columnNames = "cpf"))
-public class PessoaFisica {
+public class PessoaFisica implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
+	public PessoaFisica() {
+		super();
+	}
+
+	public PessoaFisica(String nome, String cpf, String telefoneComercial, String telefoneResidencial,
+			String telefoneCelular, String email, String idade, Date data_nascimento) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.telefoneComercial = telefoneComercial;
+		this.telefoneResidencial = telefoneResidencial;
+		this.telefoneCelular = telefoneCelular;
+		this.email = email;
+		this.idade = idade;
+		this.data_nascimento = data_nascimento;
+	}
+
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -56,7 +78,7 @@ public class PessoaFisica {
 	
 	@Column(name="email",columnDefinition="varchar(100)", nullable=true)
 	@Email
-	@Max(100)
+	@Size(max = 100)
 	private String email;
 	
 	@Column(name="idade",columnDefinition="integer", nullable=false)
