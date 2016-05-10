@@ -1,5 +1,6 @@
 package br.unibh.seguros.entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,19 +16,22 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_tramitacao")
-public class Tramitacao {
-	
+public class Tramitacao implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name="etapa_processo",columnDefinition="varchar(30)", nullable=false)
 	@NotNull
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
-	@Max(30)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
+	@Size(max =30)
 	private String etapaProcesso;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,25 +40,25 @@ public class Tramitacao {
 	
 	@Column(name="situacao_inicial",columnDefinition="varchar(50)", nullable=false)
 	@NotNull
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
-	@Max(50)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
+	@Size(max = 50)
 	private String situacaoInicial;
 	
 	@Column(name="situacao_final",columnDefinition="varchar(50)", nullable=false)
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	@NotNull
-	@Max(50)
+	@Size(max = 50)
 	private String situacaoFinal;
 	
 	@Column(name="tipo_decisao",columnDefinition="varchar(100)", nullable=false)
 	@NotNull
-	@Max(100)
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
+	@Size(max = 100)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String tipoDecisao;
 	
 	@Column(name="comentario",columnDefinition="varchar(4000)", nullable=true)
-	@Pattern(regexp = "[A-zÀ-ú ]", message = "Somente letras e espaços")
-	@Max(4000)
+	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
+	@Size(max = 4000)
 	private String comentario;
 	
 	@Column(name="documento",columnDefinition="blob", nullable=true)
@@ -160,11 +164,117 @@ public class Tramitacao {
 		this.proposta = propostas;
 	}
 
-	@Override
-	public String toString() {
-		return "Tramitacao [id=" + id + ", etapaProcesso=" + etapaProcesso + ", dataHora=" + dataHora
-				+ ", situacaoInicial=" + situacaoInicial + ", situacaoFinal=" + situacaoFinal + ", tipoDecisao="
-				+ tipoDecisao + ", comentario=" + comentario + ", documento=" + documento + ", propostas=" + proposta
-				+ ", setorResponsavel=" + setorResponsavel + ", usuarioDecisao=" + usuarioDecisao + "]";
+	public Tramitacao() {
+		super();
 	}
+
+	public Tramitacao(String etapaProcesso, Date dataHora, String situacaoInicial, String situacaoFinal,
+			String tipoDecisao, String comentario, String documento, Proposta proposta, Setor setorResponsavel,
+			Usuario usuarioDecisao, Tramitacao tramitacoes) {
+		super();
+		this.etapaProcesso = etapaProcesso;
+		this.dataHora = dataHora;
+		this.situacaoInicial = situacaoInicial;
+		this.situacaoFinal = situacaoFinal;
+		this.tipoDecisao = tipoDecisao;
+		this.comentario = comentario;
+		this.documento = documento;
+		this.proposta = proposta;
+		this.setorResponsavel = setorResponsavel;
+		this.usuarioDecisao = usuarioDecisao;
+		this.tramitacoes = tramitacoes;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comentario == null) ? 0 : comentario.hashCode());
+		result = prime * result + ((dataHora == null) ? 0 : dataHora.hashCode());
+		result = prime * result + ((documento == null) ? 0 : documento.hashCode());
+		result = prime * result + ((etapaProcesso == null) ? 0 : etapaProcesso.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((proposta == null) ? 0 : proposta.hashCode());
+		result = prime * result + ((setorResponsavel == null) ? 0 : setorResponsavel.hashCode());
+		result = prime * result + ((situacaoFinal == null) ? 0 : situacaoFinal.hashCode());
+		result = prime * result + ((situacaoInicial == null) ? 0 : situacaoInicial.hashCode());
+		result = prime * result + ((tipoDecisao == null) ? 0 : tipoDecisao.hashCode());
+		result = prime * result + ((tramitacoes == null) ? 0 : tramitacoes.hashCode());
+		result = prime * result + ((usuarioDecisao == null) ? 0 : usuarioDecisao.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tramitacao other = (Tramitacao) obj;
+		if (comentario == null) {
+			if (other.comentario != null)
+				return false;
+		} else if (!comentario.equals(other.comentario))
+			return false;
+		if (dataHora == null) {
+			if (other.dataHora != null)
+				return false;
+		} else if (!dataHora.equals(other.dataHora))
+			return false;
+		if (documento == null) {
+			if (other.documento != null)
+				return false;
+		} else if (!documento.equals(other.documento))
+			return false;
+		if (etapaProcesso == null) {
+			if (other.etapaProcesso != null)
+				return false;
+		} else if (!etapaProcesso.equals(other.etapaProcesso))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (proposta == null) {
+			if (other.proposta != null)
+				return false;
+		} else if (!proposta.equals(other.proposta))
+			return false;
+		if (setorResponsavel == null) {
+			if (other.setorResponsavel != null)
+				return false;
+		} else if (!setorResponsavel.equals(other.setorResponsavel))
+			return false;
+		if (situacaoFinal == null) {
+			if (other.situacaoFinal != null)
+				return false;
+		} else if (!situacaoFinal.equals(other.situacaoFinal))
+			return false;
+		if (situacaoInicial == null) {
+			if (other.situacaoInicial != null)
+				return false;
+		} else if (!situacaoInicial.equals(other.situacaoInicial))
+			return false;
+		if (tipoDecisao == null) {
+			if (other.tipoDecisao != null)
+				return false;
+		} else if (!tipoDecisao.equals(other.tipoDecisao))
+			return false;
+		if (tramitacoes == null) {
+			if (other.tramitacoes != null)
+				return false;
+		} else if (!tramitacoes.equals(other.tramitacoes))
+			return false;
+		if (usuarioDecisao == null) {
+			if (other.usuarioDecisao != null)
+				return false;
+		} else if (!usuarioDecisao.equals(other.usuarioDecisao))
+			return false;
+		return true;
+	}
+
+	
 }

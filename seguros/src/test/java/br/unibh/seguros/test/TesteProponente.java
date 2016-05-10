@@ -39,7 +39,6 @@ import br.unibh.seguros.entidades.Usuario;
 import br.unibh.seguros.entidades.Vinculo;
 import br.unibh.seguros.util.Resources;
 
-@Ignore
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TesteProponente {

@@ -147,6 +147,79 @@ public class Proponente extends PessoaFisica implements Serializable{
 		this.seguros = seguros;
 		this.propostas = propostas;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((data_cadastro == null) ? 0 : data_cadastro.hashCode());
+		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result + ((enderecos == null) ? 0 : enderecos.hashCode());
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((propostas == null) ? 0 : propostas.hashCode());
+		result = prime * result + ((seguros == null) ? 0 : seguros.hashCode());
+		result = prime * result + ((situacaoCadastro == null) ? 0 : situacaoCadastro.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((vinculos == null) ? 0 : vinculos.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Proponente other = (Proponente) obj;
+		if (data_cadastro == null) {
+			if (other.data_cadastro != null)
+				return false;
+		} else if (!data_cadastro.equals(other.data_cadastro))
+			return false;
+		if (dependente == null) {
+			if (other.dependente != null)
+				return false;
+		} else if (!dependente.equals(other.dependente))
+			return false;
+		if (enderecos == null) {
+			if (other.enderecos != null)
+				return false;
+		} else if (!enderecos.equals(other.enderecos))
+			return false;
+		if (matricula == null) {
+			if (other.matricula != null)
+				return false;
+		} else if (!matricula.equals(other.matricula))
+			return false;
+		if (propostas == null) {
+			if (other.propostas != null)
+				return false;
+		} else if (!propostas.equals(other.propostas))
+			return false;
+		if (seguros == null) {
+			if (other.seguros != null)
+				return false;
+		} else if (!seguros.equals(other.seguros))
+			return false;
+		if (situacaoCadastro == null) {
+			if (other.situacaoCadastro != null)
+				return false;
+		} else if (!situacaoCadastro.equals(other.situacaoCadastro))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (vinculos == null) {
+			if (other.vinculos != null)
+				return false;
+		} else if (!vinculos.equals(other.vinculos))
+			return false;
+		return true;
+	}
 	
 	
 

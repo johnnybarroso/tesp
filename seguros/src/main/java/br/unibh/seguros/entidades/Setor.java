@@ -90,4 +90,53 @@ public class Setor implements Serializable{
 		return "Setor [id=" + id + ", nome=" + nome + ", setorSuperior=" + setorSuperior + ", membro=" + membro
 				+ ", tramitacoes=" + tramitacoes + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((membro == null) ? 0 : membro.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((setorSuperior == null) ? 0 : setorSuperior.hashCode());
+		result = prime * result + ((tramitacoes == null) ? 0 : tramitacoes.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Setor other = (Setor) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (membro == null) {
+			if (other.membro != null)
+				return false;
+		} else if (!membro.equals(other.membro))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (setorSuperior == null) {
+			if (other.setorSuperior != null)
+				return false;
+		} else if (!setorSuperior.equals(other.setorSuperior))
+			return false;
+		if (tramitacoes == null) {
+			if (other.tramitacoes != null)
+				return false;
+		} else if (!tramitacoes.equals(other.tramitacoes))
+			return false;
+		return true;
+	}
 }

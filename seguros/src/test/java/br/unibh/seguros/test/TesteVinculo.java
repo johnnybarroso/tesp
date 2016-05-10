@@ -38,7 +38,6 @@ import br.unibh.seguros.entidades.Usuario;
 import br.unibh.seguros.entidades.Vinculo;
 import br.unibh.seguros.util.Resources;
 
-@Ignore
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TesteVinculo {
@@ -47,7 +46,7 @@ public class TesteVinculo {
 		return ShrinkWrap.create(WebArchive.class, "test2.war")
 				.addClasses(Resources.class, Dependente.class, Endereco.class, PessoaFisica.class, Proponente.class,
 						Proposta.class, Questionario.class, Seguro.class, Setor.class, Tramitacao.class, Usuario.class,
-						Vinculo.class)
+						Vinculo.class, PessoaFisica.class, Dependente.class, Endereco.class)
 				.addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
@@ -76,90 +75,88 @@ public class TesteVinculo {
 	@Test
 	public void teste01_inserirSemErro() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		Setor s = new Setor();
-		s.setNome("Tecnologia da Informação");
-		em.persist(s);
-		Setor aux = (Setor) em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação").getSingleResult();
+		Vinculo v = new Vinculo("Familiar", "Andrade", new Date(), new Date(), "Gerente", "799.00", "Eugenio", "(31)3491-3221", "johnnybarroso@hotmail.com", null);
+		v.setTipoVinculo("Familiar");
+		em.persist(v);
+		Vinculo aux = (Vinculo) em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Familiar").getSingleResult();
 		assertNotNull(aux);
 	}
-
+	
 	@Test
 	public void teste02_inserirComErroValidation1() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
-			Setor s = new Setor();
-			s.setNome("1828!!!");
-			em.persist(s);
+			Vinculo v = new Vinculo("1232122", "Andrade", new Date(), new Date(), "Gerente", "799.00", "Eugenio", "(31)3491-3221", "johnnybarroso@hotmail.com", null);
+			v.setTipoVinculo("1232122");
+			em.persist(v);
 		} catch (Exception e) {
-			assertTrue(checkString(e, "Deve conter apenas letras e espaços"));
+			assertTrue(checkString(e, "Somente letras e espaços"));
 		}
 	}
-
+    
 	@Test
 	public void teste03_inserirComErroValidation2() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
-			Setor s = new Setor();
-			s.setNome("As");
-			em.persist(s);
+			Vinculo v = new Vinculo("Familiar", "123121", new Date(), new Date(), "Gerente", "799.00", "Eugenio", "(31)3491-3221", "johnnybarroso@hotmail.com", null);
+			v.setEmpresa("123121");
+			em.persist(v);
 		} catch (Exception e) {
-			assertTrue(checkString(e, "tamanho deve estar entre 3 e 150"));
+			assertTrue(checkString(e, "Somente letras e espaços"));
 		}
 	}
-
+	
 	@Test
 	public void teste04_inserirComErroValidation3() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
-			Setor s = new Setor();
-			s.setNome(
+			Vinculo v = new Vinculo("0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891", "123121", new Date(), new Date(), "Gerente", "799.00", "Eugenio", "(31)3491-3221", "johnnybarroso@hotmail.com", null);
+			v.setTipoVinculo(
 					"0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567891");
-			em.persist(s);
+			em.persist(v);
 		} catch (Exception e) {
-			assertTrue(checkString(e, "tamanho deve estar entre 3 e 150"));
+			assertTrue(checkString(e, "Somente letras e espaços"));
 		}
 	}
-
+	
 	@Test
 	public void teste05_atualizar() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		Setor s = (Setor) em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação").getSingleResult();
-		s.setNome("Tecnologia da Informação modificado");
+		Vinculo v = (Vinculo) em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Familiar").getSingleResult();
+		v.setTipoVinculo("Individual");
 		em.flush();
-		Setor aux = (Setor) em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação modificado").getSingleResult();
+		Vinculo aux = (Vinculo) em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Individual").getSingleResult();
 		assertNotNull(aux);
 	}
-
+	
 	@Test
 	public void teste06_excluir() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		Setor s = (Setor) em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação modificado").getSingleResult();
-		em.remove(s);
+		Vinculo v = (Vinculo) em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Individual").getSingleResult();
+		em.remove(v);
 		em.flush();
-		assertEquals(em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação modificado").getResultList().size(), 0);
+		assertEquals(em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Individual").getResultList().size(), 0);
 	}
-
 	@Test
 	public void teste07_incluirUsuario() throws Exception {
 		log.info("============> Executando " + Thread.currentThread().getStackTrace()[1].getMethodName());
-		Setor s = new Setor();
-		s.setNome("Tecnologia da Informação");
-		em.persist(s);
-		Setor aux = (Setor) em.createQuery("select o from Setor o where o.nome = :nome")
-				.setParameter("nome", "Tecnologia da Informação").getSingleResult();
-		Usuario u = new Usuario("João da Silva", "joaosilva", "12345678", "Administrador", "Analista", "joao@gmail.com",
-				new Date(), aux);
-		em.persist(u);
-		Usuario aux2 = (Usuario) em.createQuery("select o from Usuario o where o.nome = :nome")
-				.setParameter("nome", "João da Silva").getSingleResult();
-		assertEquals(aux2.getSetor().getNome(), "Tecnologia da Informação");
+		Proponente p = new Proponente("Johnny Eugenio", "10969036140", "(31)3651-4563", "(31)3456-3245", "(31)9967-4269", "johnny@johnny.com", "21", new Date(), "1234567", new Date(), "ATIVO", "ONLINE", null, null, null, null, null);
+		p.setMatricula("1234567");	
+		em.persist(p);
+		Proponente aux = (Proponente) em.createQuery("select o from Proponente o where o.matricula = :matricula")
+				.setParameter("matricula", "1234567").getSingleResult();
+		Vinculo v = new Vinculo("Familiar", "Andrade", java.sql.Date.valueOf("2014-09-11"), java.sql.Date.valueOf("2015-09-11"), "Gerente", "799.00", "Eugenio", "(31)3491-3221", "johnnybarroso@hotmail.com", aux);
+		em.persist(v);
+		Vinculo aux2 = (Vinculo) em.createQuery("select o from Vinculo o where o.tipoVinculo = :tipoVinculo")
+				.setParameter("tipoVinculo", "Familiar").getSingleResult();
+		assertEquals(aux2.getProponente().getMatricula(), "1234567");
 	}
-
+	
 	private boolean checkString(Throwable e, String str) {
 		if (e.getMessage().contains(str)) {
 			return true;
