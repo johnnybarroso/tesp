@@ -10,9 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -24,10 +26,23 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "tb_seguro")
+@NamedQuery(name="Seguro.findByName", query = "select o from Seguro o where o.codigoSusep like :codigoSusep")
 public class Seguro implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -262,11 +277,11 @@ public class Seguro implements Serializable{
 		result = prime * result + ((dataTerminoVigencia == null) ? 0 : dataTerminoVigencia.hashCode());
 		result = prime * result + ((diaPagamento == null) ? 0 : diaPagamento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((proponente == null) ? 0 : proponente.hashCode());
 		result = prime * result + ((situacaoAtual == null) ? 0 : situacaoAtual.hashCode());
 		result = prime * result + ((tipoSegurado == null) ? 0 : tipoSegurado.hashCode());
 		result = prime * result + ((valorPremio == null) ? 0 : valorPremio.hashCode());
 		result = prime * result + ((valorSegurado == null) ? 0 : valorSegurado.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -329,11 +344,6 @@ public class Seguro implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (proponente == null) {
-			if (other.proponente != null)
-				return false;
-		} else if (!proponente.equals(other.proponente))
-			return false;
 		if (situacaoAtual == null) {
 			if (other.situacaoAtual != null)
 				return false;
@@ -354,8 +364,11 @@ public class Seguro implements Serializable{
 				return false;
 		} else if (!valorSegurado.equals(other.valorSegurado))
 			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
 		return true;
 	}
-	
-	
 }

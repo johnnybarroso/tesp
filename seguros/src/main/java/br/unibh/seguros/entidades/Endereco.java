@@ -10,66 +10,78 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "tb_endereco")
-public class Endereco implements Serializable{
-	
+public class Endereco implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="tipo",columnDefinition="varchar(30)", nullable=false)
+
+	@Column(name = "tipo", columnDefinition = "varchar(30)", nullable = false)
 	@NotNull
 	@Size(max = 30)
 	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String tipo;
-	
-	@Column(name="cep",columnDefinition="char(8)", nullable=false)
+
+	@Column(name = "cep", columnDefinition = "char(8)", nullable = false)
 	@NotNull
-	@Pattern(regexp="\\d{8}", message = "O cep deve ter 8 numeros")
+	@Pattern(regexp = "\\d{8}", message = "O cep deve ter 8 numeros")
 	private String cep;
-	
-	@Column(name="tipo_logradouro",columnDefinition="varchar(30)", nullable=false)
+
+	@Column(name = "tipo_logradouro", columnDefinition = "varchar(30)", nullable = false)
 	@NotNull
 	@Size(max = 30)
 	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String tipoLogradouro;
-	
-	@Column(name="logradouro",columnDefinition="varchar(150)", nullable=false)
+
+	@Column(name = "logradouro", columnDefinition = "varchar(150)", nullable = false)
 	@NotNull
 	@Size(max = 150)
 	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String logradouro;
-	
-	@Column(name="numero",columnDefinition="varchar(30)", nullable=false)
+
+	@Column(name = "numero", columnDefinition = "varchar(30)", nullable = false)
 	@NotNull
 	@Size(max = 30)
 	private String numero;
-	
-	@Column(name="complemento",columnDefinition="varchar(100)", nullable=true)
+
+	@Column(name = "complemento", columnDefinition = "varchar(100)", nullable = true)
 	@Size(max = 100)
 	private String complemento;
-	
-	@Column(name="cidade",columnDefinition="varchar(100)", nullable=true)
+
+	@Column(name = "cidade", columnDefinition = "varchar(100)", nullable = true)
 	@NotNull
 	@Size(max = 100)
 	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String cidade;
-	
-	@Column(name="estado",columnDefinition="char(2)", nullable=false)
+
+	@Column(name = "estado", columnDefinition = "char(2)", nullable = false)
 	@NotNull
 	@Pattern(regexp = "[A-Z]{2}", message = "Somente letras maisculas")
 	private String estado;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Proponente proponente;
 
 	public Long getId() {
@@ -152,10 +164,10 @@ public class Endereco implements Serializable{
 		this.logradouro = logradouro;
 	}
 
-	public Endereco(){
-		
+	public Endereco() {
+
 	}
-	
+
 	public Endereco(String tipo, String cep, String tipoLogradouro, String logradouro, String numero,
 			String complemento, String cidade, String estado, Proponente proponente) {
 		super();
@@ -181,7 +193,6 @@ public class Endereco implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
-		result = prime * result + ((proponente == null) ? 0 : proponente.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		result = prime * result + ((tipoLogradouro == null) ? 0 : tipoLogradouro.hashCode());
 		return result;
@@ -230,11 +241,6 @@ public class Endereco implements Serializable{
 			if (other.numero != null)
 				return false;
 		} else if (!numero.equals(other.numero))
-			return false;
-		if (proponente == null) {
-			if (other.proponente != null)
-				return false;
-		} else if (!proponente.equals(other.proponente))
 			return false;
 		if (tipo == null) {
 			if (other.tipo != null)

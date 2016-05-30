@@ -7,11 +7,13 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,10 +21,11 @@ import javax.validation.constraints.Size;
 
 @Entity @PrimaryKeyJoinColumn
 @Table(name = "tb_proponente")
+@NamedQuery(name="Proponente.findByName", query = "select o from Proponente o where o.matricula like :matricula")
 public class Proponente extends PessoaFisica implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Column(name="matricula",columnDefinition="char(8)", nullable=false, unique=true)
 	@NotNull
 	@Size(min = 5, max = 8)
@@ -156,11 +159,8 @@ public class Proponente extends PessoaFisica implements Serializable{
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
 		result = prime * result + ((enderecos == null) ? 0 : enderecos.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
-		result = prime * result + ((propostas == null) ? 0 : propostas.hashCode());
-		result = prime * result + ((seguros == null) ? 0 : seguros.hashCode());
 		result = prime * result + ((situacaoCadastro == null) ? 0 : situacaoCadastro.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((vinculos == null) ? 0 : vinculos.hashCode());
 		return result;
 	}
 
@@ -193,16 +193,6 @@ public class Proponente extends PessoaFisica implements Serializable{
 				return false;
 		} else if (!matricula.equals(other.matricula))
 			return false;
-		if (propostas == null) {
-			if (other.propostas != null)
-				return false;
-		} else if (!propostas.equals(other.propostas))
-			return false;
-		if (seguros == null) {
-			if (other.seguros != null)
-				return false;
-		} else if (!seguros.equals(other.seguros))
-			return false;
 		if (situacaoCadastro == null) {
 			if (other.situacaoCadastro != null)
 				return false;
@@ -213,14 +203,6 @@ public class Proponente extends PessoaFisica implements Serializable{
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (vinculos == null) {
-			if (other.vinculos != null)
-				return false;
-		} else if (!vinculos.equals(other.vinculos))
-			return false;
 		return true;
 	}
-	
-	
-
 }

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -28,6 +29,16 @@ public class PessoaFisica implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition="bigint NOT NULL DEFAULT 0")
+	private Long version;
+	public Long getVersion() {
+	return version;
+	}
+	public void setVersion(Long version) {
+	this.version = version;
+	}
+	
 	public PessoaFisica() {
 		super();
 	}
@@ -169,7 +180,6 @@ public class PessoaFisica implements Serializable {
 				+ ", telefoneResidencial=" + telefoneResidencial + ", telefoneCelular=" + telefoneCelular + ", email="
 				+ email + ", idade=" + idade + ", data_nascimento=" + data_nascimento + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -185,7 +195,6 @@ public class PessoaFisica implements Serializable {
 		result = prime * result + ((telefoneResidencial == null) ? 0 : telefoneResidencial.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -242,4 +251,6 @@ public class PessoaFisica implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 }

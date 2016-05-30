@@ -10,10 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -24,10 +26,22 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_usuario")
+@NamedQuery(name="Usuario.findByName", query = "select o from Usuario o where o.nome like :nome")
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 	
 	public Usuario(){}
 	
@@ -189,8 +203,6 @@ public class Usuario implements Serializable{
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
-		result = prime * result + ((setor == null) ? 0 : setor.hashCode());
-		result = prime * result + ((tramitacoes == null) ? 0 : tramitacoes.hashCode());
 		return result;
 	}
 
@@ -242,16 +254,6 @@ public class Usuario implements Serializable{
 			if (other.senha != null)
 				return false;
 		} else if (!senha.equals(other.senha))
-			return false;
-		if (setor == null) {
-			if (other.setor != null)
-				return false;
-		} else if (!setor.equals(other.setor))
-			return false;
-		if (tramitacoes == null) {
-			if (other.tramitacoes != null)
-				return false;
-		} else if (!tramitacoes.equals(other.tramitacoes))
 			return false;
 		return true;
 	}

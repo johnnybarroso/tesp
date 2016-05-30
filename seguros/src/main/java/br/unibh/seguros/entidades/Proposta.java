@@ -11,11 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -27,10 +29,23 @@ import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "tb_proposta")
+@NamedQuery(name="Proposta.findByName", query = "select o from Proposta o where o.bancoPagamento like :bancoPagamento")
 public class Proposta implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -103,7 +118,7 @@ public class Proposta implements Serializable{
 	private String conta;
 	
 	//Optional = false
-	@OneToOne(optional=false)
+	@OneToOne(optional=true)
 	@JoinColumn(name="questionario_id")
 	private Questionario questionario;
 	
@@ -318,13 +333,8 @@ public class Proposta implements Serializable{
 		result = prime * result + ((dataTerminoVigencia == null) ? 0 : dataTerminoVigencia.hashCode());
 		result = prime * result + ((diaPagamento == null) ? 0 : diaPagamento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((proponente == null) ? 0 : proponente.hashCode());
-		result = prime * result + ((propostas == null) ? 0 : propostas.hashCode());
-		result = prime * result + ((questionario == null) ? 0 : questionario.hashCode());
-		result = prime * result + ((seguro == null) ? 0 : seguro.hashCode());
 		result = prime * result + ((situacaoAtual == null) ? 0 : situacaoAtual.hashCode());
 		result = prime * result + ((tipoSegurado == null) ? 0 : tipoSegurado.hashCode());
-		result = prime * result + ((tramitacoes == null) ? 0 : tramitacoes.hashCode());
 		result = prime * result + ((valorPremio == null) ? 0 : valorPremio.hashCode());
 		result = prime * result + ((valorSegurado == null) ? 0 : valorSegurado.hashCode());
 		return result;
@@ -389,26 +399,6 @@ public class Proposta implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (proponente == null) {
-			if (other.proponente != null)
-				return false;
-		} else if (!proponente.equals(other.proponente))
-			return false;
-		if (propostas == null) {
-			if (other.propostas != null)
-				return false;
-		} else if (!propostas.equals(other.propostas))
-			return false;
-		if (questionario == null) {
-			if (other.questionario != null)
-				return false;
-		} else if (!questionario.equals(other.questionario))
-			return false;
-		if (seguro == null) {
-			if (other.seguro != null)
-				return false;
-		} else if (!seguro.equals(other.seguro))
-			return false;
 		if (situacaoAtual == null) {
 			if (other.situacaoAtual != null)
 				return false;
@@ -418,11 +408,6 @@ public class Proposta implements Serializable{
 			if (other.tipoSegurado != null)
 				return false;
 		} else if (!tipoSegurado.equals(other.tipoSegurado))
-			return false;
-		if (tramitacoes == null) {
-			if (other.tramitacoes != null)
-				return false;
-		} else if (!tramitacoes.equals(other.tramitacoes))
 			return false;
 		if (valorPremio == null) {
 			if (other.valorPremio != null)
@@ -436,5 +421,4 @@ public class Proposta implements Serializable{
 			return false;
 		return true;
 	}
-	
 }

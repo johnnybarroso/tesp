@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.Past;
 
 @Entity
@@ -18,6 +19,18 @@ public class Questionario implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

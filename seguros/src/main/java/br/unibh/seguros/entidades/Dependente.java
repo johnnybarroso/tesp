@@ -9,38 +9,38 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
-@Entity @PrimaryKeyJoinColumn
+@Entity
+@PrimaryKeyJoinColumn
 @Table(name = "tb_dependente")
-public class Dependente extends PessoaFisica implements Serializable{
-	
+public class Dependente extends PessoaFisica implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="grau_parentesco",columnDefinition="varchar(30)", nullable=false)
+	@Column(name = "grau_parentesco", columnDefinition = "varchar(30)", nullable = false)
 	@NotNull
 	@Size(max = 30)
 	@Pattern(regexp = "[A-zÀ-ú ]*", message = "Somente letras e espaços")
 	private String grauParentesco;
-	
-	@Column(name="percentual_beneficio",columnDefinition="decimal(30)", nullable=false)
+
+	@Column(name = "percentual_beneficio", columnDefinition = "decimal(30,2)", nullable = false)
 	@NotNull
 	@DecimalMin("0.0")
 	@DecimalMax("100.0")
 	private String percentualBeneficio;
-	
-	//Tem que ser nulo, alterei para realizar o teste Perguntar ao professor
-	@Column(name="dependente_ir", columnDefinition="char(1)", nullable=true)
-	private Character dependenteIR;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Proponente proponente;
 
+	// Tem que ser nulo, alterei para realizar o teste Perguntar ao professor
+	@Column(name = "dependente_ir", columnDefinition = "char(1)", nullable = true)
+	private Character dependenteIR;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Proponente proponente;
 
 	public String getGrauParentesco() {
 		return grauParentesco;
@@ -62,13 +62,13 @@ public class Dependente extends PessoaFisica implements Serializable{
 		if (dependenteIR == null)
 			return null;
 		return dependenteIR == 'S' ? Boolean.TRUE : Boolean.FALSE;
-		
+
 	}
 
 	public void setDependenteIR(Boolean dependenteIR) {
-		if (dependenteIR == null){
+		if (dependenteIR == null) {
 			this.dependenteIR = null;
-		}else {
+		} else {
 			this.dependenteIR = dependenteIR == true ? 'S' : 'N';
 		}
 	}
@@ -102,11 +102,10 @@ public class Dependente extends PessoaFisica implements Serializable{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((dependenteIR == null) ? 0 : dependenteIR.hashCode());
 		result = prime * result + ((grauParentesco == null) ? 0 : grauParentesco.hashCode());
 		result = prime * result + ((percentualBeneficio == null) ? 0 : percentualBeneficio.hashCode());
-		result = prime * result + ((proponente == null) ? 0 : proponente.hashCode());
 		return result;
 	}
 
@@ -114,7 +113,7 @@ public class Dependente extends PessoaFisica implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -133,11 +132,6 @@ public class Dependente extends PessoaFisica implements Serializable{
 			if (other.percentualBeneficio != null)
 				return false;
 		} else if (!percentualBeneficio.equals(other.percentualBeneficio))
-			return false;
-		if (proponente == null) {
-			if (other.proponente != null)
-				return false;
-		} else if (!proponente.equals(other.proponente))
 			return false;
 		return true;
 	}

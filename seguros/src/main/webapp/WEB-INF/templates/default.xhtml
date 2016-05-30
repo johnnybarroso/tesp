@@ -1,17 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-   <title>Java EE 6 Starter Application</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <h:outputStylesheet name="css/screen.css" />
+	<title>Java EE 6 Starter Application</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet name="css/screen.css" />
 </h:head>
 <h:body>
-   <div id="container">
-      <div id="content">
-         <div id="sidebar">
+	<div id="container">
+		<h:graphicImage id="logo" value="/resources/gfx/banner.png"
+			alt="Seguros" />
+		<div id="content">
+			<h:form>
+				<p:growl id="messages" />
+
+				<p:menubar>
+					<p:menuitem value="Setor" url="setor.jsf" />
+					<p:menuitem value="Usuario" url="usuario.jsf" />
+					<p:menuitem value="Proponente" url="proponente.jsf" />
+					<p:menuitem value="Proposta" url="proposta.jsf" />
+					<p:menuitem value="Seguro" url="seguro.jsf" />
+					<p:menuitem value="Tramitacao" url="tramitacao.jsf" />
+				</p:menubar>
+			</h:form>
+			<!--  <div id="sidebar">
             <h3>Find out more</h3>
             <p>Learn about JBoss AS 7.</p>
             <ul>
@@ -67,18 +83,17 @@
                   href="http://seamframework.org/Seam3/GetInvolved">contributing</a>
                it back to the community!
             </p>
-         </div>
-         <ui:insert name="content">
+         </div>-->
+			<ui:insert name="content">
                     [Template content will be inserted here]
                 </ui:insert>
-      </div>
-      <div id="footer">
-         <h:graphicImage value="/resources/gfx/logo.png" alt="Weld logo" />
-         <p>
-            This project was generated from a Maven archetype from
-            JBoss.<br />
-         </p>
-      </div>
-   </div>
+		</div>
+		<div id="footer">
+			<!-- <h:graphicImage value="/resources/gfx/logo.png" alt="Weld logo" /> -->
+			<p>
+				Aplicação versão 1.0 - Johnny<br />
+			</p>
+		</div>
+	</div>
 </h:body>
 </html>

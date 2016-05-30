@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -28,6 +29,18 @@ public class Vinculo implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	@Version
+	@Column(columnDefinition = "bigint NOT NULL DEFAULT 0")
+	private Long version;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -203,7 +216,6 @@ public class Vinculo implements Serializable{
 		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((pessoaReferencia == null) ? 0 : pessoaReferencia.hashCode());
-		result = prime * result + ((proponente == null) ? 0 : proponente.hashCode());
 		result = prime * result + ((salario == null) ? 0 : salario.hashCode());
 		result = prime * result + ((telefoneReferencia == null) ? 0 : telefoneReferencia.hashCode());
 		result = prime * result + ((tipoVinculo == null) ? 0 : tipoVinculo.hashCode());
@@ -254,11 +266,6 @@ public class Vinculo implements Serializable{
 				return false;
 		} else if (!pessoaReferencia.equals(other.pessoaReferencia))
 			return false;
-		if (proponente == null) {
-			if (other.proponente != null)
-				return false;
-		} else if (!proponente.equals(other.proponente))
-			return false;
 		if (salario == null) {
 			if (other.salario != null)
 				return false;
@@ -276,6 +283,4 @@ public class Vinculo implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 }
